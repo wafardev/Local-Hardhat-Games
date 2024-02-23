@@ -1,16 +1,20 @@
-// replace the name of the contract with which one you want to deploy!
-const contractName = "Game1";
+async function mainDeploy(contractNumber) {
+  const contractsAmount = 5; // The amount of contracts in the contracts folder
+  // Validate the input
+  if (
+    isNaN(contractNumber) ||
+    contractNumber <= 0 ||
+    contractNumber > contractsAmount
+  ) {
+    throw new Error("Invalid or undefined contract number.");
+  }
 
-async function main() {
+  const contractName = `Game${contractNumber}`;
+
   const Game = await hre.ethers.getContractFactory(contractName);
   // if you need to add constructor arguments for the particular game, add them here:
   const game = await Game.deploy();
   console.log(`${contractName} deployed to address: ${game.address}`);
 }
 
-main()
- .then(() => process.exit(0))
- .catch(error => {
-   console.error(error);
-   process.exit(1);
- });
+module.exports = { mainDeploy };
